@@ -158,6 +158,11 @@
     margin-bottom: 1.5rem;
   }
 
+  .num.appx {
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+
   .num {
     font-family: var(--f-mono);
     font-size: 0.78rem;
@@ -811,10 +816,152 @@ MatrixPanel_I2S_DMA *panel = <span class="k">nullptr</span>;
     </dl>
   </section>
 
+
+  <section>
+    <div class="head"><span class="num appx">Appendix</span><h2>Inside the panel</h2></div>
+
+    <p>
+      There is <strong>no schematic for this panel</strong>. DFRobot’s wiki page for
+      <a href="https://wiki.dfrobot.com/32x16_RGB_LED_Matrix_-_6mm_pitch_SKU_DFR0471">SKU
+      DFR0471</a> publishes the pinout and the specs — 1/8 scan, ≥300 Hz refresh — and
+      nothing about the board itself: no circuit diagram, no driver part numbers. It is a
+      resold generic panel, so there is nothing of their own to publish. Which matters less
+      than it sounds, because the board behind a HUB75 header is nearly always these three
+      blocks.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 680 356" role="img" aria-label="Block diagram: HUB75 signals enter through a 74HC245 buffer. R1 G1 B1 and R2 G2 B2 each feed a chain of six 16-bit constant-current sink drivers, one for the upper half rows 0 to 7 and one for the lower half rows 8 to 15. CLK, LAT and OE are shared by both chains. A, B and C feed a 74HC138 three-to-eight decoder driving eight high-side PMOS switches that select one row pair.">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink-2)"></path>
+          </marker>
+        </defs>
+
+        <text x="8" y="30" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)" letter-spacing="1.2">FROM HUB75 HEADER</text>
+
+        <!-- signal labels -->
+        <text x="8" y="84" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="var(--sig-data)">R1 G1 B1</text>
+        <text x="8" y="156" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="var(--sig-data)">R2 G2 B2</text>
+        <text x="8" y="234" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="var(--sig-ctrl)">CLK LAT OE</text>
+        <text x="8" y="304" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="var(--sig-addr)">A B C</text>
+
+        <path d="M 84 80 H 104" stroke="var(--sig-data)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+        <path d="M 84 152 H 104" stroke="var(--sig-data)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+        <path d="M 84 230 H 104" stroke="var(--sig-ctrl)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+        <path d="M 84 300 H 104" stroke="var(--sig-addr)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+
+        <!-- buffer -->
+        <rect x="110" y="44" width="54" height="282" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <text transform="rotate(-90 137 185)" x="137" y="185" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="middle">74HC245</text>
+
+        <!-- driver chains -->
+        <rect x="196" y="44" width="206" height="144" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <path d="M 196 116 H 402" stroke="var(--rule)" stroke-width="1.5" fill="none"></path>
+        <text x="299" y="80" font-family="IBM Plex Mono, monospace" font-size="12.5" font-weight="500" fill="var(--ink)" text-anchor="middle">6 × 16-bit sinks</text>
+        <text x="299" y="98" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink-3)" text-anchor="middle">upper chain</text>
+        <text x="299" y="152" font-family="IBM Plex Mono, monospace" font-size="12.5" font-weight="500" fill="var(--ink)" text-anchor="middle">6 × 16-bit sinks</text>
+        <text x="299" y="170" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink-3)" text-anchor="middle">lower chain</text>
+
+        <path d="M 164 80 H 190" stroke="var(--sig-data)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+        <path d="M 164 152 H 190" stroke="var(--sig-data)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+
+        <!-- clk/lat/oe shared -->
+        <path d="M 164 230 H 299 V 196" stroke="var(--sig-ctrl)" stroke-width="2" marker-end="url(#ah)" fill="none" stroke-dasharray="5 3"></path>
+        <text x="312" y="234" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)">shared by both chains</text>
+
+        <!-- row select -->
+        <rect x="196" y="274" width="100" height="52" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <text x="246" y="298" font-family="IBM Plex Mono, monospace" font-size="12.5" font-weight="500" fill="var(--ink)" text-anchor="middle">74HC138</text>
+        <text x="246" y="315" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink-3)" text-anchor="middle">3 → 8</text>
+
+        <rect x="316" y="274" width="96" height="52" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <text x="364" y="298" font-family="IBM Plex Mono, monospace" font-size="12.5" font-weight="500" fill="var(--ink)" text-anchor="middle">8 × PMOS</text>
+        <text x="364" y="315" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink-3)" text-anchor="middle">high side</text>
+
+        <path d="M 296 300 H 310" stroke="var(--sig-addr)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+
+        <!-- panel -->
+        <rect x="460" y="44" width="192" height="282" rx="3" fill="var(--sunk)" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <path d="M 460 185 H 652" stroke="var(--rule)" stroke-width="1.5" stroke-dasharray="4 3" fill="none"></path>
+        <text x="556" y="106" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="middle">rows 0–7</text>
+        <text x="556" y="128" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink-3)" text-anchor="middle">32 columns</text>
+        <text x="556" y="246" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="middle">rows 8–15</text>
+        <text x="556" y="268" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink-3)" text-anchor="middle">32 columns</text>
+
+        <path d="M 402 80 H 454" stroke="var(--sig-data)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+        <path d="M 402 152 H 454" stroke="var(--sig-data)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+        <path d="M 412 300 H 454" stroke="var(--sig-addr)" stroke-width="2" marker-end="url(#ah)" fill="none"></path>
+        <text x="416" y="292" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)">row pair n / n+8</text>
+      </svg>
+      <figcaption>
+        The column count sets the chip count: 32 columns × 3 colours × 2 halves = 192 sink
+        outputs, so twelve 16-bit drivers in two chains — which is exactly why R1/G1/B1 and
+        R2/G2/B2 are separate pins rather than one bus. The 1-of-8 decode is the 1/8 scan.
+      </figcaption>
+    </figure>
+
+    <h3>The three blocks</h3>
+    <ul class="prose">
+      <li>
+        <strong>Input buffer</strong> — a 74HC245 sitting right behind the header. This is
+        why a 3.3 V host usually drives a 5 V panel without complaint.
+      </li>
+      <li>
+        <strong>Column drivers</strong> — 16-bit constant-current sinks daisy-chained into
+        one long shift register: ChipOne ICN2047, TI TLC5926/TLC5927, or plain 74HC595 on
+        the cheapest boards. CLK shifts, LAT latches, OE blanks.
+      </li>
+      <li>
+        <strong>Row select</strong> — a 74HC138 (or ICN2012) decoding A/B/C into eight
+        lines, each switching a high-side PMOS that sources current into one row pair.
+      </li>
+    </ul>
+
+    <h3>Reverse-engineered schematics</h3>
+    <p>
+      No vendor draws these, but people have traced them out. None covers a 32×16 panel
+      exactly — they are all P2 64×64 boards — yet the topology is identical and the
+      drawings are readable.
+    </p>
+    <ul class="prose">
+      <li>
+        <a href="https://github.com/esden/led-panel-docs">esden/led-panel-docs</a> — KiCad
+        schematics for five panels traced by hand: <code>DC2P8888A</code>,
+        <code>DCHY-P2-6464-1515-VP</code>, <code>K616-V4.1</code>,
+        <code>P2-1515-64x64-32S-V1.0</code>, <code>P2-1515_1010-32S-JJ-V2.0</code>.
+      </li>
+      <li>
+        <a href="https://gist.github.com/esden/41266dc3b525ed2d8edee35bbc4842f1">esden’s RGB
+        panel FAQ</a> — the index to the above, the driver-IC part numbers, and Mike
+        Harrison’s teardown videos.
+      </li>
+      <li>
+        <a href="https://github.com/kbob/icebreaker-candy/tree/master/datasheets">kbob’s
+        datasheet collection</a> — datasheets for the ICs actually found inside these panels.
+      </li>
+      <li>
+        <a href="https://learn.lushaylabs.com/led-panel-hub75/">Lushay Labs: HUB75 on a Tang
+        Nano 9K</a> — the clearest walkthrough of the shift-and-scan cycle, written for an FPGA.
+      </li>
+    </ul>
+
+    <h3>When you actually need this</h3>
+    <p>
+      Not for driving the panel: the pinout and the OE/LAT/CLK sequence describe the
+      interface completely. It matters for two things — tracing a dead column back to which
+      driver chip failed, and working out an unfamiliar panel’s pixel remapping when the
+      image comes out scrambled rather than blank. For your own board, read the part numbers
+      off the ICs and the model string on the silkscreen (something in the shape of
+      <code>P6-3216-8S-…</code>); that beats any generic schematic.
+    </p>
+  </section>
+
   <footer>
-    Bench notes for a DFRobot 32×16 / 6 mm-pitch HUB75 panel. Pin functions follow the
-    common HUB75 convention; confirm against the silkscreen before powering up, as a few
-    vendors shuffle pins 4 and 8.
+    Bench notes for the DFRobot 32×16 / 6 mm-pitch HUB75 panel, SKU DFR0471. Pin functions
+    checked against DFRobot’s own wiki: 1/8 scan, ≥300 Hz refresh, and pins 4, 8 and 16 all
+    ground on this panel — some other vendors put E on pin 8, so check the silkscreen if
+    you are wiring a different one.
   </footer>
 
 </div>
