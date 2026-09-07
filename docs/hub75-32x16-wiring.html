@@ -1,0 +1,842 @@
+<title>HUB75 32×16 Panel Wiring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root {
+    --ground:      #eef1f4;
+    --surface:     #f8fafb;
+    --sunk:        #e4e8ed;
+    --ink:         #101720;
+    --ink-2:       #4d5a68;
+    --ink-3:       #78838f;
+    --rule:        #cbd3db;
+    --rule-soft:   #dde3e9;
+
+    --sig-data:    #b03a5b;
+    --sig-addr:    #2a6c8c;
+    --sig-ctrl:    #b0731b;
+    --sig-pwr:     #556170;
+    --sig-none:    #97a1ab;
+
+    --accent:      #2a6c8c;
+    --warn-bg:     #f6ecd9;
+    --warn-edge:   #d9b874;
+
+    --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --f-body:    "Source Serif 4", Georgia, "Times New Roman", serif;
+    --f-mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+    --col: 34rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:    #11161c;
+      --surface:   #171d25;
+      --sunk:      #0c1015;
+      --ink:       #e6ebf0;
+      --ink-2:     #a8b4c0;
+      --ink-3:     #7e8b98;
+      --rule:      #2e3944;
+      --rule-soft: #232c35;
+
+      --sig-data:  #e5859d;
+      --sig-addr:  #6db7d8;
+      --sig-ctrl:  #dfa851;
+      --sig-pwr:   #9aa6b3;
+      --sig-none:  #6b7681;
+
+      --accent:    #6db7d8;
+      --warn-bg:   #241f16;
+      --warn-edge: #6d5a2f;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:    #11161c;
+    --surface:   #171d25;
+    --sunk:      #0c1015;
+    --ink:       #e6ebf0;
+    --ink-2:     #a8b4c0;
+    --ink-3:     #7e8b98;
+    --rule:      #2e3944;
+    --rule-soft: #232c35;
+
+    --sig-data:  #e5859d;
+    --sig-addr:  #6db7d8;
+    --sig-ctrl:  #dfa851;
+    --sig-pwr:   #9aa6b3;
+    --sig-none:  #6b7681;
+
+    --accent:    #6db7d8;
+    --warn-bg:   #241f16;
+    --warn-edge: #6d5a2f;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    padding: 3.5rem 0 1.5rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .kicker {
+    font-family: var(--f-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 1rem;
+  }
+
+  h1 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(2.1rem, 6vw, 3.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .dek {
+    max-width: var(--col);
+    color: var(--ink-2);
+    font-size: 1.06rem;
+    margin: 1rem 0 0;
+  }
+
+  .specs {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.75rem;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    font-family: var(--f-mono);
+    font-size: 0.78rem;
+    color: var(--ink-2);
+  }
+
+  .specs li { display: flex; gap: 0.5rem; }
+  .specs b {
+    font-weight: 500;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- sections ---------- */
+
+  section { padding-top: 3.25rem; }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .num {
+    font-family: var(--f-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  h2 {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: -0.015em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.005em;
+    margin: 2rem 0 0.6rem;
+  }
+
+  p { max-width: var(--col); margin: 0 0 1rem; }
+  section > p:last-child { margin-bottom: 0; }
+
+  a { color: var(--accent); text-underline-offset: 2px; }
+
+  code {
+    font-family: var(--f-mono);
+    font-size: 0.86em;
+    background: var(--sunk);
+    border-radius: 2px;
+    padding: 0.08em 0.32em;
+  }
+
+  strong { font-weight: 600; }
+
+  ul.prose {
+    max-width: var(--col);
+    padding-left: 1.1rem;
+    margin: 0 0 1rem;
+  }
+  ul.prose li { margin-bottom: 0.5rem; }
+
+  /* ---------- signal group colouring ---------- */
+
+  .g-data { color: var(--sig-data); }
+  .g-addr { color: var(--sig-addr); }
+  .g-ctrl { color: var(--sig-ctrl); }
+  .g-pwr  { color: var(--sig-pwr);  }
+  .g-none { color: var(--sig-none); }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+    font-family: var(--f-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.02em;
+  }
+
+  .legend li { display: flex; align-items: center; gap: 0.5rem; }
+
+  .swatch {
+    width: 0.72rem;
+    height: 0.72rem;
+    border-radius: 50%;
+    background: currentColor;
+    flex: none;
+  }
+
+  .legend .note { color: var(--ink-3); }
+
+  /* ---------- figures ---------- */
+
+  figure {
+    margin: 0 0 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--rule-soft);
+    padding: 1.5rem;
+  }
+
+  figure svg { display: block; width: 100%; height: auto; }
+
+  figcaption {
+    font-family: var(--f-mono);
+    font-size: 0.74rem;
+    line-height: 1.55;
+    color: var(--ink-3);
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--rule-soft);
+    max-width: 44rem;
+  }
+
+  /* ---------- table ---------- */
+
+  .tablewrap { overflow-x: auto; margin-bottom: 1.25rem; }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 34rem;
+    font-family: var(--f-mono);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  th {
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 0 0.9rem 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.42rem 0.9rem 0.42rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+
+  td.pin { font-weight: 600; }
+  td.mcu { color: var(--ink); font-weight: 500; }
+  td.why { font-family: var(--f-body); font-size: 0.94rem; color: var(--ink-2); }
+  tr.sep td { border-bottom-color: var(--rule); }
+
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    margin-bottom: 1.1rem;
+    background: var(--surface);
+  }
+
+  .seg button {
+    font-family: var(--f-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    padding: 0.4rem 0.95rem;
+    border: 0;
+    background: transparent;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+
+  .seg button + button { border-left: 1px solid var(--rule); }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+  .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+  /* ---------- code ---------- */
+
+  pre {
+    background: var(--sunk);
+    border-left: 2px solid var(--accent);
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+    margin: 0 0 1.25rem;
+    font-family: var(--f-mono);
+    font-size: 0.8rem;
+    line-height: 1.65;
+    tab-size: 2;
+  }
+
+  pre code { background: none; padding: 0; font-size: inherit; }
+  pre .c { color: var(--ink-3); }
+  pre .k { color: var(--sig-addr); }
+  pre .s { color: var(--sig-data); }
+
+  /* ---------- callout ---------- */
+
+  .warn {
+    max-width: var(--col);
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-edge);
+    padding: 0.9rem 1.1rem;
+    margin: 0 0 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .warn b {
+    font-family: var(--f-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sig-ctrl);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  /* ---------- symptom list ---------- */
+
+  .symptoms { margin: 0; }
+
+  .symptom {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 0 1.75rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+
+  .symptom dt {
+    font-family: var(--f-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .symptom dd { margin: 0; color: var(--ink-2); font-size: 0.96rem; }
+
+  @media (max-width: 44rem) {
+    .symptom { grid-template-columns: 1fr; gap: 0.25rem; }
+  }
+
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--f-mono);
+    font-size: 0.73rem;
+    line-height: 1.7;
+    color: var(--ink-3);
+    max-width: 44rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="kicker">Bench reference · DFRobot 32×16 RGB matrix</p>
+    <h1>HUB75 32×16 Panel Wiring</h1>
+    <p class="dek">
+      The DFRobot “RGB LED Matrix Panel 32×16, 512 LEDs, 6 mm pitch” is a generic
+      HUB75 panel: sixteen signal pins, a separate 5 V feed, and no intelligence of
+      its own. Everything below is what it takes to drive one from an Arduino.
+    </p>
+    <ul class="specs">
+      <li><b>Pixels</b> 32 × 16</li>
+      <li><b>Pitch</b> 6 mm</li>
+      <li><b>Active area</b> 192 × 96 mm</li>
+      <li><b>Scan</b> 1/8</li>
+      <li><b>Interface</b> HUB75, 5 V logic</li>
+      <li><b>LEDs</b> 512 RGB</li>
+    </ul>
+  </header>
+
+  <section>
+    <div class="head"><span class="num">01</span><h2>Find the input header</h2></div>
+
+    <p>
+      Turn the panel over. There are two 2×8 IDC headers, usually silkscreened
+      <code>JIN1</code> and <code>JOUT1</code>, with an arrow between them showing the
+      direction data travels. Use the <strong>input</strong> one — feeding the output
+      header gets you nothing at all. The separate two-pin (or spade / Molex) connector
+      is power, and it is not optional.
+    </p>
+
+    <ul class="legend">
+      <li class="g-data"><span class="swatch"></span>Colour data</li>
+      <li class="g-addr"><span class="swatch"></span>Row address</li>
+      <li class="g-ctrl"><span class="swatch"></span>Control</li>
+      <li class="g-pwr"><span class="swatch"></span>Ground</li>
+      <li class="g-none"><span class="swatch"></span>Unused on this panel</li>
+    </ul>
+
+    <figure>
+      <svg viewBox="0 0 660 372" role="img" aria-label="HUB75 16-pin header pinout: pin 1 R1, pin 2 G1, pin 3 B1, pin 4 GND, pin 5 R2, pin 6 G2, pin 7 B2, pin 8 GND, pin 9 A, pin 10 B, pin 11 C, pin 12 D unused, pin 13 CLK, pin 14 LAT, pin 15 OE, pin 16 GND.">
+        <!-- connector shell -->
+        <rect x="252" y="26" width="156" height="316" rx="7" fill="var(--sunk)" stroke="var(--rule)" stroke-width="1.5"></rect>
+        <!-- polarising notch -->
+        <rect x="310" y="20" width="40" height="12" rx="3" fill="var(--ground)" stroke="var(--rule)" stroke-width="1.5"></rect>
+        <text x="330" y="12" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)" text-anchor="middle" letter-spacing="1.5">NOTCH</text>
+
+        <!-- row 1 -->
+        <rect x="285" y="49" width="22" height="22" rx="2" fill="var(--sig-data)"></rect>
+        <text x="296" y="65" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">1</text>
+        <text x="238" y="65" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-data)" text-anchor="end">R1</text>
+        <circle cx="364" cy="60" r="11" fill="var(--sig-data)"></circle>
+        <text x="364" y="64" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">2</text>
+        <text x="422" y="65" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-data)">G1</text>
+
+        <!-- row 2 -->
+        <circle cx="296" cy="97" r="11" fill="var(--sig-data)"></circle>
+        <text x="296" y="101" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">3</text>
+        <text x="238" y="102" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-data)" text-anchor="end">B1</text>
+        <circle cx="364" cy="97" r="11" fill="var(--sig-pwr)"></circle>
+        <text x="364" y="101" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">4</text>
+        <text x="422" y="102" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-pwr)">GND</text>
+
+        <!-- row 3 -->
+        <circle cx="296" cy="134" r="11" fill="var(--sig-data)"></circle>
+        <text x="296" y="138" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">5</text>
+        <text x="238" y="139" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-data)" text-anchor="end">R2</text>
+        <circle cx="364" cy="134" r="11" fill="var(--sig-data)"></circle>
+        <text x="364" y="138" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">6</text>
+        <text x="422" y="139" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-data)">G2</text>
+
+        <!-- row 4 -->
+        <circle cx="296" cy="171" r="11" fill="var(--sig-data)"></circle>
+        <text x="296" y="175" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">7</text>
+        <text x="238" y="176" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-data)" text-anchor="end">B2</text>
+        <circle cx="364" cy="171" r="11" fill="var(--sig-pwr)"></circle>
+        <text x="364" y="175" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">8</text>
+        <text x="422" y="176" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-pwr)">GND</text>
+        <text x="422" y="190" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)">(E on 1/32 panels)</text>
+
+        <!-- row 5 -->
+        <circle cx="296" cy="208" r="11" fill="var(--sig-addr)"></circle>
+        <text x="296" y="212" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--surface)" text-anchor="middle">9</text>
+        <text x="238" y="213" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-addr)" text-anchor="end">A</text>
+        <circle cx="364" cy="208" r="11" fill="var(--sig-addr)"></circle>
+        <text x="364" y="212" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--surface)" text-anchor="middle">10</text>
+        <text x="422" y="213" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-addr)">B</text>
+
+        <!-- row 6 -->
+        <circle cx="296" cy="245" r="11" fill="var(--sig-addr)"></circle>
+        <text x="296" y="249" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--surface)" text-anchor="middle">11</text>
+        <text x="238" y="250" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-addr)" text-anchor="end">C</text>
+        <circle cx="364" cy="245" r="11" fill="var(--sig-none)"></circle>
+        <text x="364" y="249" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--surface)" text-anchor="middle">12</text>
+        <text x="422" y="250" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-none)">D</text>
+        <text x="446" y="250" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)">leave open</text>
+
+        <!-- row 7 -->
+        <circle cx="296" cy="282" r="11" fill="var(--sig-ctrl)"></circle>
+        <text x="296" y="286" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--surface)" text-anchor="middle">13</text>
+        <text x="238" y="287" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-ctrl)" text-anchor="end">CLK</text>
+        <circle cx="364" cy="282" r="11" fill="var(--sig-ctrl)"></circle>
+        <text x="364" y="286" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--surface)" text-anchor="middle">14</text>
+        <text x="422" y="287" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-ctrl)">LAT</text>
+        <text x="466" y="287" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)">= STB</text>
+
+        <!-- row 8 -->
+        <circle cx="296" cy="319" r="11" fill="var(--sig-ctrl)"></circle>
+        <text x="296" y="323" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--surface)" text-anchor="middle">15</text>
+        <text x="238" y="324" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-ctrl)" text-anchor="end">OE</text>
+        <circle cx="364" cy="319" r="11" fill="var(--sig-pwr)"></circle>
+        <text x="364" y="323" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--surface)" text-anchor="middle">16</text>
+        <text x="422" y="324" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600" fill="var(--sig-pwr)">GND</text>
+
+        <!-- pin 1 marker -->
+        <path d="M 200 60 L 224 60" stroke="var(--ink-3)" stroke-width="1.5" fill="none"></path>
+        <path d="M 224 60 l -7 -4 v 8 z" fill="var(--ink-3)"></path>
+        <text x="196" y="57" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)" text-anchor="end">SQUARE PAD</text>
+        <text x="196" y="71" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-3)" text-anchor="end">= PIN 1</text>
+      </svg>
+      <figcaption>
+        Input header seen from the back of the panel, notch upwards. The panel is 1/8 scan:
+        A–C select one of eight row pairs, and each pair is driven at once — R1/G1/B1 light
+        row n, R2/G2/B2 light row n+8. That is why there are two colour triples and only
+        three address lines. D is for 32-row panels and stays unconnected here.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="head"><span class="num">02</span><h2>Power it separately</h2></div>
+
+    <div class="warn">
+      <b>Do this before anything else</b>
+      Give the panel its own 5 V supply rated <strong>2 A or more</strong>, and tie its
+      ground to the Arduino’s ground. Powering the panel from the Arduino’s 5 V pin or
+      from USB will brown out the board — the failure looks like flicker, random resets,
+      or a sketch that never starts.
+    </div>
+
+    <p>
+      At full white every one of the 512 pixels is on, and a panel this size draws around
+      <strong>2 A</strong>. Ordinary content — text, sprites, a clock face — sits nearer
+      0.3–0.5 A. Size the supply for the worst case anyway; a supply that sags takes the
+      logic levels with it.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 660 210" role="img" aria-label="Power topology: a 5 volt 2 amp supply feeds the panel's power connector, and its ground is shared with the Arduino. Sixteen signal wires run from the Arduino to the panel's input header.">
+        <!-- supply -->
+        <rect x="10" y="60" width="150" height="76" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <text x="85" y="94" font-family="Archivo, sans-serif" font-size="15" font-weight="600" fill="var(--ink)" text-anchor="middle">5 V supply</text>
+        <text x="85" y="114" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-3)" text-anchor="middle">2 A or better</text>
+
+        <!-- panel -->
+        <rect x="262" y="26" width="150" height="76" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <text x="337" y="60" font-family="Archivo, sans-serif" font-size="15" font-weight="600" fill="var(--ink)" text-anchor="middle">Panel</text>
+        <text x="337" y="80" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-3)" text-anchor="middle">32 × 16</text>
+
+        <!-- arduino -->
+        <rect x="262" y="122" width="150" height="76" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"></rect>
+        <text x="337" y="156" font-family="Archivo, sans-serif" font-size="15" font-weight="600" fill="var(--ink)" text-anchor="middle">Arduino</text>
+        <text x="337" y="176" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-3)" text-anchor="middle">USB for code only</text>
+
+        <!-- +5 to panel -->
+        <path d="M 160 80 L 210 80 L 210 48 L 262 48" stroke="var(--sig-data)" stroke-width="2.5" fill="none"></path>
+        <text x="212" y="40" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="var(--sig-data)">+5 V</text>
+
+        <!-- gnd to panel and arduino -->
+        <path d="M 160 116 L 210 116 L 210 86 L 262 86" stroke="var(--sig-pwr)" stroke-width="2.5" fill="none"></path>
+        <path d="M 210 116 L 210 182 L 262 182" stroke="var(--sig-pwr)" stroke-width="2.5" fill="none"></path>
+        <circle cx="210" cy="116" r="4" fill="var(--sig-pwr)"></circle>
+        <text x="150" y="140" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="var(--sig-pwr)">shared GND</text>
+
+        <!-- signals -->
+        <path d="M 337 122 L 337 102" stroke="var(--sig-addr)" stroke-width="2.5" fill="none"></path>
+        <path d="M 337 102 l -4 8 h 8 z" fill="var(--sig-addr)"></path>
+        <text x="352" y="118" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="var(--sig-addr)">12 signals</text>
+
+        <!-- note -->
+        <text x="452" y="60" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">Panel logic is 5 V —</text>
+        <text x="452" y="78" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">an Uno or Mega drives it</text>
+        <text x="452" y="96" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">directly, no level shifter.</text>
+      </svg>
+      <figcaption>
+        The Arduino may stay on USB while you develop; only the ground has to be common.
+        Keep the panel’s power leads short and thick — the supplied cable exists for a reason.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="head"><span class="num">03</span><h2>Wire it to the Arduino</h2></div>
+
+    <p>
+      Adafruit’s <code>RGBmatrixPanel</code> library refreshes the panel by writing whole
+      AVR ports at once, so the six colour pins are <strong>fixed by the library</strong>
+      and cannot be moved. The address and control pins are arguments to the constructor,
+      but keeping the canonical assignment below means every example sketch compiles as-is.
+    </p>
+
+    <div class="seg" role="group" aria-label="Board">
+      <button type="button" data-board="uno" aria-pressed="true">Uno / Nano</button>
+      <button type="button" data-board="mega" aria-pressed="false">Mega 2560</button>
+    </div>
+
+    <div class="tablewrap">
+      <table id="wiring">
+        <thead>
+          <tr>
+            <th>Panel pin</th>
+            <th>Signal</th>
+            <th id="mcuhead">Uno pin</th>
+            <th>What it does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pin g-data">1, 2, 3</td>
+            <td class="g-data">R1 G1 B1</td>
+            <td class="mcu" data-uno="2, 3, 4" data-mega="24, 25, 26">2, 3, 4</td>
+            <td class="why">Colour bits for the upper half, rows 0–7. Fixed port pins.</td>
+          </tr>
+          <tr class="sep">
+            <td class="pin g-data">5, 6, 7</td>
+            <td class="g-data">R2 G2 B2</td>
+            <td class="mcu" data-uno="5, 6, 7" data-mega="27, 28, 29">5, 6, 7</td>
+            <td class="why">Colour bits for the lower half, rows 8–15. Fixed port pins.</td>
+          </tr>
+          <tr>
+            <td class="pin g-addr">9, 10, 11</td>
+            <td class="g-addr">A, B, C</td>
+            <td class="mcu" data-uno="A0, A1, A2" data-mega="A0, A1, A2">A0, A1, A2</td>
+            <td class="why">Selects which of the eight row pairs is lit right now.</td>
+          </tr>
+          <tr class="sep">
+            <td class="pin g-none">12</td>
+            <td class="g-none">D</td>
+            <td class="mcu" data-uno="—" data-mega="—">—</td>
+            <td class="why">Fourth address bit. Unused on a 16-row panel; leave it open.</td>
+          </tr>
+          <tr>
+            <td class="pin g-ctrl">13</td>
+            <td class="g-ctrl">CLK</td>
+            <td class="mcu" data-uno="8" data-mega="11">8</td>
+            <td class="why">Shifts each colour bit into the panel’s shift registers.</td>
+          </tr>
+          <tr>
+            <td class="pin g-ctrl">14</td>
+            <td class="g-ctrl">LAT</td>
+            <td class="mcu" data-uno="A3" data-mega="A3">A3</td>
+            <td class="why">Latches a finished row. Sometimes silkscreened STB.</td>
+          </tr>
+          <tr class="sep">
+            <td class="pin g-ctrl">15</td>
+            <td class="g-ctrl">OE</td>
+            <td class="mcu" data-uno="9" data-mega="9">9</td>
+            <td class="why">Output enable, active low — also how brightness is dimmed.</td>
+          </tr>
+          <tr>
+            <td class="pin g-pwr">4, 8, 16</td>
+            <td class="g-pwr">GND</td>
+            <td class="mcu" data-uno="GND" data-mega="GND">GND</td>
+            <td class="why">At least one. Without a common ground nothing has a reference.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Twelve wires plus a ground. If your panel came with the usual 16-way ribbon, cutting
+      one end off and crimping individual DuPont sockets is easier to get right than
+      counting through an IDC connector.
+    </p>
+  </section>
+
+  <section>
+    <div class="head"><span class="num">04</span><h2>The first sketch</h2></div>
+
+    <p>
+      Install <strong>Adafruit RGB Matrix Panel</strong> and <strong>Adafruit GFX</strong>
+      from the Library Manager. The seven-argument constructor is the 16-row form; the
+      eight-argument one (with a <code>D</code> pin) is for 32-row panels.
+    </p>
+
+    <pre><code><span class="k">#include</span> <span class="s">&lt;Adafruit_GFX.h&gt;</span>
+<span class="k">#include</span> <span class="s">&lt;RGBmatrixPanel.h&gt;</span>
+
+<span class="k">#define</span> CLK  8   <span class="c">// pin 11 on a Mega 2560</span>
+<span class="k">#define</span> LAT  A3
+<span class="k">#define</span> OE   9
+<span class="k">#define</span> A    A0
+<span class="k">#define</span> B    A1
+<span class="k">#define</span> C    A2
+
+<span class="c">// 7 arguments = 16 rows. false = single-buffered.</span>
+RGBmatrixPanel matrix(A, B, C, CLK, LAT, OE, <span class="k">false</span>);
+
+<span class="k">void</span> setup() {
+  matrix.begin();
+
+  matrix.fillScreen(0);
+  matrix.drawRect(0, 0, 32, 16, matrix.Color333(0, 0, 7));   <span class="c">// blue border</span>
+  matrix.fillCircle(16, 8, 4, matrix.Color333(7, 0, 0));     <span class="c">// red dot</span>
+
+  matrix.setTextColor(matrix.Color333(0, 7, 0));
+  matrix.setCursor(2, 4);
+  matrix.print(<span class="s">"Hi"</span>);
+}
+
+<span class="k">void</span> loop() {
+  <span class="c">// Nothing here: a timer interrupt refreshes the panel by itself.</span>
+}</code></pre>
+
+    <p>
+      Every Adafruit_GFX call works — <code>drawLine</code>, <code>drawBitmap</code>,
+      <code>setTextSize</code>, and scrolling by redrawing at a shifting <em>x</em>.
+      Colours come from <code>Color333(r, g, b)</code> with 0–7 per channel, or
+      <code>Color444</code> / <code>Color888</code>; the driver runs four bits per channel
+      underneath.
+    </p>
+
+    <h3>Two things that will bite you on an Uno</h3>
+    <ul class="prose">
+      <li>
+        <strong>Timer1 belongs to the library.</strong> An interrupt refreshes all sixteen
+        rows continuously in the background, so anything else wanting Timer1 —
+        <code>TimerOne</code>, some PWM libraries, <code>tone()</code> on certain pins —
+        will fight it and show up as flicker.
+      </li>
+      <li>
+        <strong>The framebuffer is 768 bytes</strong> of the Uno’s 2 KB of SRAM. Passing
+        <code>true</code> for double-buffering doubles that to 1536 and leaves almost
+        nothing for your own code; if you need tear-free animation, move to a Mega.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="head"><span class="num">05</span><h2>Or drive it from an ESP32</h2></div>
+
+    <p>
+      If the panel is the point of the project rather than one part of it, an ESP32 is the
+      better host. <strong>ESP32-HUB75-MatrixPanel-I2S-DMA</strong> clocks the panel out over
+      I²S with DMA, so the CPU never touches the refresh and you get far more colour depth
+      than bit-banging allows.
+    </p>
+
+    <pre><code><span class="k">#include</span> <span class="s">&lt;ESP32-HUB75-MatrixPanel-I2S-DMA.h&gt;</span>
+
+MatrixPanel_I2S_DMA *panel = <span class="k">nullptr</span>;
+
+<span class="k">void</span> setup() {
+  HUB75_I2S_CFG mxconfig(
+    32,   <span class="c">// PANEL_RES_X</span>
+    16,   <span class="c">// PANEL_RES_Y</span>
+    1     <span class="c">// PANEL_CHAIN — one panel</span>
+  );
+
+  panel = <span class="k">new</span> MatrixPanel_I2S_DMA(mxconfig);
+  panel-&gt;begin();
+  panel-&gt;setBrightness8(90);       <span class="c">// 0-255; start low, it is bright</span>
+  panel-&gt;fillScreen(panel-&gt;color565(0, 0, 0));
+  panel-&gt;setCursor(2, 4);
+  panel-&gt;print(<span class="s">"Hi"</span>);
+}
+
+<span class="k">void</span> loop() {}</code></pre>
+
+    <p>
+      The library has a default GPIO assignment baked into its header — read it and pass your
+      own into <code>mxconfig.gpio</code> if those pins clash with something. The ESP32’s
+      3.3 V outputs usually drive these panels fine; on long ribbons, a 74AHCT245 buffer
+      between board and panel turns “usually” into “always”.
+    </p>
+  </section>
+
+  <section>
+    <div class="head"><span class="num">06</span><h2>When it doesn’t light up</h2></div>
+
+    <dl class="symptoms">
+      <div class="symptom">
+        <dt>Nothing at all, or one dim garbled block</dt>
+        <dd>OE and LAT swapped, or you are plugged into the output header. Check the arrow on the silkscreen.</dd>
+      </div>
+      <div class="symptom">
+        <dt>Image split or repeated vertically</dt>
+        <dd>An address line is wrong or floating. A, B and C must be A0, A1, A2 in that order.</dd>
+      </div>
+      <div class="symptom">
+        <dt>Only the top or bottom half works</dt>
+        <dd>R1/G1/B1 and R2/G2/B2 are crossed, or one of the two triples is off by a pin.</dd>
+      </div>
+      <div class="symptom">
+        <dt>Wrong colours, consistently</dt>
+        <dd>Two of the colour pins are swapped. The order across pins 1–7 is R1 G1 B1 · R2 G2 B2, with GND at pin 4.</dd>
+      </div>
+      <div class="symptom">
+        <dt>Flicker, or the Arduino keeps resetting</dt>
+        <dd>The panel is drawing current through the Arduino. Separate 5 V supply, common ground.</dd>
+      </div>
+      <div class="symptom">
+        <dt>Faint ghosting between rows</dt>
+        <dd>Normal at high brightness on cheap panels. Lower the brightness, or shorten the signal wires.</dd>
+      </div>
+      <div class="symptom">
+        <dt>Sketch won’t compile: “no matching function”</dt>
+        <dd>You used the eight-argument constructor. A 32×16 panel has three address lines, so it takes seven.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <footer>
+    Bench notes for a DFRobot 32×16 / 6 mm-pitch HUB75 panel. Pin functions follow the
+    common HUB75 convention; confirm against the silkscreen before powering up, as a few
+    vendors shuffle pins 4 and 8.
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var buttons = document.querySelectorAll('.seg button');
+    var cells = document.querySelectorAll('#wiring td.mcu');
+    var head = document.getElementById('mcuhead');
+    var labels = { uno: 'Uno pin', mega: 'Mega pin' };
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var board = btn.dataset.board;
+        buttons.forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b === btn));
+        });
+        head.textContent = labels[board];
+        cells.forEach(function (td) {
+          td.textContent = td.dataset[board];
+        });
+      });
+    });
+  })();
+</script>
