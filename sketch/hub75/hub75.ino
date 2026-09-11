@@ -43,11 +43,11 @@ void setup() {
 }
 
 void loop() {
-  delay(10);
+  delay(100);
   matrix.setTextColor(matrix.Color333(r, g, b));
   matrix.setCursor(1, 1);
   matrix.print("Maker");
-  matrix.setTextColor(matrix.Color333(g, b, r));
+  matrix.setTextColor(matrix.Color333(g, 8-b, r));
   matrix.setCursor(1, 7);
   matrix.print("Space");
 
@@ -60,7 +60,7 @@ void loop() {
       break;
 
     case st_dec_r:
-      if (r > 0)
+      if (r > 1)
         r -= 1;
       else
         state = st_dec_g;
@@ -74,7 +74,7 @@ void loop() {
       break;
 
     case st_dec_g:
-      if (g > 0)
+      if (g > 1)
         g -= 1;
       else
         state = st_dec_b;
@@ -88,7 +88,7 @@ void loop() {
       break;
 
     case st_dec_b:
-      if (b > 0)
+      if (b > 1)
         b -= 1;
       else
         state = st_inc_r;
